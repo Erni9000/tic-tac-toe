@@ -1,0 +1,150 @@
+package tictactoe
+
+fun main() {
+    var display = mutableListOf(
+        mutableListOf<Char>(' ',' ',' '),
+        mutableListOf<Char>(' ',' ',' '),
+        mutableListOf<Char>(' ',' ',' '),
+    )
+
+    var xWon: Boolean = false
+    var oWon: Boolean = false
+    var correctInputs: Int = 0
+    var userInput: String = ""
+    var splitInput: List<String> = emptyList()
+    var yCoordinate: Int = 5
+    var xCoordinate: Int = 5
+    input@while (correctInputs < 9){
+        yCoordinate = 5
+        xCoordinate = 5
+        splitInput = emptyList()
+        xWon = false
+        oWon = false
+        print("""
+        ---------
+        | ${display[0][0]} ${display[0][1]} ${display[0][2]} |
+        | ${display[1][0]} ${display[1][1]} ${display[1][2]} |
+        | ${display[2][0]} ${display[2][1]} ${display[2][2]} |
+        --------- 
+        Enter the coordinates:
+    """.trimIndent())
+        userInput = readln()
+        splitInput = userInput.split(" ")
+        try {
+            yCoordinate = splitInput[0].toInt()
+            xCoordinate = splitInput[1].toInt()
+        } catch (e: java.lang.NumberFormatException) {
+            println("You should enter numbers!")
+            continue@input
+        }
+        if (xCoordinate > 3) {
+            println("Coordinates should be from 1 to 3!")
+            continue@input
+        }
+        if (yCoordinate > 3) {
+            println("Coordinates should be from 1 to 3!")
+            continue@input
+        }
+        if(!display[yCoordinate - 1][xCoordinate - 1].equals(' ')) {
+            println("This cell is occupied! Choose another one!")
+            continue@input
+        }
+        /*try {
+            display[yCoordinate - 1][xCoordinate - 1].equals(' ')
+        } catch (e: java.lang.IndexOutOfBoundsException) {
+            println("This cell is occupied! Choose another one!")
+            continue@input
+        } */
+        if (correctInputs == 0){
+            display[yCoordinate - 1][xCoordinate - 1] = 'X'
+            print("""
+        ---------
+        | ${display[0][0]} ${display[0][1]} ${display[0][2]} |
+        | ${display[1][0]} ${display[1][1]} ${display[1][2]} |
+        | ${display[2][0]} ${display[2][1]} ${display[2][2]} |
+        --------- 
+        
+    """.trimIndent())
+        } else if (correctInputs % 2 != 0){
+            display[yCoordinate - 1][xCoordinate - 1] = 'O'
+            print("""
+        ---------
+        | ${display[0][0]} ${display[0][1]} ${display[0][2]} |
+        | ${display[1][0]} ${display[1][1]} ${display[1][2]} |
+        | ${display[2][0]} ${display[2][1]} ${display[2][2]} |
+        --------- 
+        
+    """.trimIndent())
+        } else if (correctInputs % 2 == 0) {
+            display[yCoordinate - 1][xCoordinate - 1] = 'X'
+            print("""
+        ---------
+        | ${display[0][0]} ${display[0][1]} ${display[0][2]} |
+        | ${display[1][0]} ${display[1][1]} ${display[1][2]} |
+        | ${display[2][0]} ${display[2][1]} ${display[2][2]} |
+        --------- 
+        
+    """.trimIndent())
+        }
+        if (
+            (display[0][0].equals('X') && display[0][1].equals('X') && display[0][2].equals('X')) or
+            (display[1][0].equals('X') && display[1][1].equals('X') && display[1][2].equals('X')) or
+            (display[2][0].equals('X') && display[2][1].equals('X') && display[2][2].equals('X')) or
+            (display[0][0].equals('X') && display[1][1].equals('X') && display[2][2].equals('X')) or
+            (display[0][0].equals('X') && display[1][0].equals('X') && display[2][0].equals('X')) or
+            (display[0][1].equals('X') && display[1][1].equals('X') && display[2][1].equals('X')) or
+            (display[0][2].equals('X') && display[1][2].equals('X') && display[2][2].equals('X')) or
+            (display[0][2].equals('X') && display[1][1].equals('X') && display[2][0].equals('X'))
+        ) { xWon = true }
+        if (
+            (display[0][0].equals('O') && display[0][1].equals('O') && display[0][2].equals('O')) or
+            (display[1][0].equals('O') && display[1][1].equals('O') && display[1][2].equals('O')) or
+            (display[2][0].equals('O') && display[2][1].equals('O') && display[2][2].equals('O')) or
+            (display[0][0].equals('O') && display[1][1].equals('O') && display[2][2].equals('O')) or
+            (display[0][0].equals('O') && display[1][0].equals('O') && display[2][0].equals('O')) or
+            (display[0][1].equals('O') && display[1][1].equals('O') && display[2][1].equals('O')) or
+            (display[0][2].equals('O') && display[1][2].equals('O') && display[2][2].equals('O')) or
+            (display[0][2].equals('O') && display[1][1].equals('O') && display[2][0].equals('O'))
+        ) { oWon = true }
+
+        if (xWon == true) {
+            print("""
+        ---------
+        | ${display[0][0]} ${display[0][1]} ${display[0][2]} |
+        | ${display[1][0]} ${display[1][1]} ${display[1][2]} |
+        | ${display[2][0]} ${display[2][1]} ${display[2][2]} |
+        --------- 
+        X wins
+        
+    """.trimIndent())
+            break@input
+        } else if (oWon == true) {
+            print("""
+        ---------
+        | ${display[0][0]} ${display[0][1]} ${display[0][2]} |
+        | ${display[1][0]} ${display[1][1]} ${display[1][2]} |
+        | ${display[2][0]} ${display[2][1]} ${display[2][2]} |
+        --------- 
+        O wins
+        
+    """.trimIndent())
+            break@input
+            }
+        ++correctInputs
+        }
+
+   if(oWon == false && xWon == false) {
+       print(
+           """
+        ---------
+        | ${display[0][0]} ${display[0][1]} ${display[0][2]} |
+        | ${display[1][0]} ${display[1][1]} ${display[1][2]} |
+        | ${display[2][0]} ${display[2][1]} ${display[2][2]} |
+        --------- 
+        Draw
+        
+    """.trimIndent()
+       )
+        }
+    }
+
